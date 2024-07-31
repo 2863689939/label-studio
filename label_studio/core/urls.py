@@ -107,6 +107,7 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    urlpatterns.append(re_path(r'^silk/', include('silk.urls', namespace='silk')))
     try:
         import debug_toolbar
 

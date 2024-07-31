@@ -114,8 +114,10 @@ if DOMAIN_FROM_REQUEST:
 INTERNAL_PORT = '8080'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool_env('DEBUG', True)
+DEBUG = get_bool_env('DEBUG', False)
 DEBUG_MODAL_EXCEPTIONS = get_bool_env('DEBUG_MODAL_EXCEPTIONS', True)
+
+print("="*10+" DEBUG: "+str(DEBUG)+" "+"="*10)
 
 # Whether to verify SSL certs when making external requests, eg in the uploader
 # ⚠️ Turning this off means assuming risk. ⚠️
@@ -243,6 +245,10 @@ MIDDLEWARE = [
     'core.middleware.DatabaseIsLockedRetryMiddleware',
     'core.current_request.ThreadLocalMiddleware',
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append('silk')
+    MIDDLEWARE.append('silk.middleware.SilkyMiddleware')
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
